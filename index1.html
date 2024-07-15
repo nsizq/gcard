@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integrated Carousel</title>
+    <link
+      rel="icon"
+      href="https://erp.maknon.org.sa/web/image?model=res.company&id=1&field=logo"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        background: #e6e6e6;
+        margin: 0;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+      }
+
+      #buttonContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0; /* Adjust padding for spacing */
+        color: darkgreen !important;
+      }
+
+      .occasionButton {
+        background-color: darkgreen !important;
+        --bs-btn-color: #fff;
+        --bs-btn-bg: darkgreen !important;
+        --bs-btn-border-color: darkgreen !important;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: darkgreen !important;
+        --bs-btn-hover-border-color: darkgreen !important;
+        --bs-btn-focus-shadow-rgb: 49, 132, 253;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: darkgreen !important;
+        --bs-btn-active-border-color: darkgreen !important;
+        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: darkgreen !important;
+        --bs-btn-disabled-border-color: darkgreen !important;
+      }
+
+      .swiper-container,
+      .swiffy-slider {
+        width: 571.8px;
+        height: 60vh;
+        margin: 20px auto;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .swiper-slide,
+      .swiffy-slider .slider-container {
+        position: relative;
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        object-fit: contain !important;
+      }
+
+      .swiper-slide img,
+      .swiffy-slider img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .image-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 7.5px solid transparent;
+        pointer-events: none;
+        transition: border-color 0.000001s ease-in-out;
+      }
+
+      .image-border.active {
+        border-color: darkgreen;
+      }
+
+      .swiper-pagination-bullet-active {
+        background-color: darkgreen !important;
+      }
+
+      .occasions {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .btn-container {
+        margin-top: 10px; /* Adjust as needed */
+      }
+
+      .btn {
+        margin: 0 5px; /* Adjust spacing between buttons */
+      }
+      .note-swiper-wrapper .note {
+        border: 3px solid transparent;
+        cursor: pointer;
+        padding: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+      .note-swiper-wrapper .note.selected {
+        border: 3px solid darkgreen;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="icon">
+      <img
+        src="https://erp.maknon.org.sa/web/image?model=res.company&id=1&field=logo"
+        style="max-width: 30%; width: 200px"
+      />
+    </div>
+
+    <!-- Buttons will be placed here -->
+    <div id="buttonContainer" class="container mt-4">
+      <!-- Buttons or Images will be dynamically added here -->
+    </div>
+
+    <!-- Swiffy Slider -->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <!-- Swiper slides will be generated dynamically -->
+      </div>
+      <!-- Add pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation arrows -->
+    </div>
+    <br />
+    <div class="note-swiper-container">
+      <div class="note-swiper-wrapper" data-value="note1">
+        <!-- النصوص ستضاف هنا ديناميكيا -->
+      </div>
+      <input type="hidden" id="selectedNote" name="note" />
+    </div>
+    <br />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.js"></script>
+
+    <script>
+      const apiUrl = "https://erp.maknon.org.sa/gcard/init";
+
+      // Function to fetch data from the API
+      function fetchData() {
+        try {
+          fetch(apiUrl)
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+
+              return response.json(); // Return the promise that resolves to JSON data
+            })
+            .then(function (data) {
+              console.log(data);
+              // Adjusting the key names to match your provided JSON structure
+
+              // Call the functions to generate buttons and images after fetching data
+              generateButtons(data.occasions);
+              generateImages(data.images);
+
+              generateNotes(data.occasions);
+
+              // Update swiffy-slider images
+              updateSwiffySlider(data.images);
+            })
+            .catch(function (error) {
+              // Handle error
+              document.getElementById("title").innerText = "Error loading data";
+              console.error("Error fetching data:", error.message);
+            });
+        } catch (error) {
+          document.getElementById("title").innerText = "Error loading data";
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      // استدعاء الدالة لجلب البيانات وإنشاء الأزرار عند تحميل الصفحة
+      window.onload = fetchData;
+
+      var lastImageId = null; // Initialize with null
+      // دالة لإنشاء الصور ديناميكيًا
+      function generateImages(data) {
+        const swiperWrapper = document.querySelector(".swiper-wrapper");
+        swiperWrapper.innerHTML = "";
+
+        data.forEach((item) => {
+          const slide = document.createElement("div");
+          slide.className = "swiper-slide";
+
+          const img = document.createElement("img");
+          img.src = "data:image/jpeg;base64," + item.img;
+          img.alt = "Image";
+          img.className = "col-3";
+          img.dataset.id = item.id;
+
+          slide.appendChild(img);
+          swiperWrapper.appendChild(slide);
+        });
+
+        var swiper = new Swiper(".swiper-container", {
+          loop: true,
+          slidesPerView: "auto",
+          spaceBetween: 30,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          scrollbar: {
+            el: ".swiper-scrollbar",
+          },
+        });
+
+        swiper.on("slideChangeTransitionEnd", function () {
+          const activeImg =
+            swiper.slides[swiper.activeIndex].querySelector("img");
+          const currentImageId = activeImg.dataset.id;
+
+          if (currentImageId !== lastImageId) {
+            console.log("Image ID: " + currentImageId);
+            lastImageId = currentImageId;
+          }
+        });
+      }
+
+      // دالة تنشئ الازرار بدينيمايكية بناء على لستة المناسبات
+      function generateButtons(occasions) {
+        const buttonContainer = document.getElementById("buttonContainer");
+
+        // اخلاء المحتوى الموجود في حالة كان هناك حاجة
+        buttonContainer.innerHTML = "";
+
+        // تكرار المرور ل لستة المناسبات وانشاء ازرار لكل مناسبة
+        occasions.forEach((occasion) => {
+          const button = document.createElement("button");
+          button.className = "btn btn-primary occasionButton";
+          button.textContent = occasion.name;
+          button.dataset.id = occasion.id; // Store the occasion ID in a data attribute
+
+          // Set up an event listener for each button to send data when clicked
+          button.addEventListener("click", function () {
+            const url = `${apiUrl}?occasions=${this.dataset.id}`;
+            console.log("Attempting to send data to:", url);
+
+            fetch(url, {
+              method: "GET", // Or 'POST', بناء على السيرفر
+              headers: {},
+            })
+              .then((response) => {
+                console.log("Raw response:", response); // اظهار raw respone object
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response.text(); // change from json() to text() to see raw response
+              })
+              .then((text) => {
+                console.log("Response text:", text); // اظهار نص الريسبونس
+                try {
+                  const data = JSON.parse(text); // محاولة تحليل نص جيسون
+                  console.log("Parsed JSON:", data);
+                } catch (error) {
+                  console.error("Parsing error:", error);
+                }
+              })
+              .catch((error) => {
+                console.error("Error sending data:", error);
+              });
+          });
+
+          // وضع الزر في المكان المطلوب
+          buttonContainer.appendChild(button);
+        });
+      }
+
+      // دالة لتحديث swiffy-slider
+      function updateSwiffySlider(images) {
+        const sliderImages = document.querySelectorAll(".swiffy-slider img");
+
+        images.forEach((image, index) => {
+          if (sliderImages[index]) {
+            const img = sliderImages[index];
+            img.src = "data:image/jpeg;base64," + image.img;
+            img.style.width = image.width + "px"; // العرض ديناميكيا
+            img.style.height = image.height + "px"; // الطول ديناميكيا
+            img.className = "col-3"; // التاكد من صحة الكلاس
+            console.log("The width: " + img.width);
+          }
+        });
+      }
+      function generateNotes(occasions) {
+        const noteSwiper = document.querySelector(".note-swiper-wrapper");
+
+        // Clear the existing content if necessary
+        noteSwiper.innerHTML = "";
+
+        // Filter occasions to only those with non-empty note_ids
+        const occasionsWithNotes = occasions.filter(
+          (occasion) => occasion.note_ids.length > 0
+        );
+
+        // Iterate over the filtered occasions and create swiper slides for each note
+        occasionsWithNotes.forEach((occasion) => {
+          occasion.note_ids.forEach((note) => {
+            const slide = document.createElement("div");
+            slide.className = "note-swiper-slide";
+
+            const noteText = document.createElement("p");
+            noteText.textContent = note.name; // Display the name of the note
+            noteText.dataset.id = note.id; // Store the note ID in a data attribute
+            noteText.className = "note";
+            noteText.style.cursor = "pointer";
+
+            // Event listener to handle note selection
+            noteText.onclick = function () {
+              document
+                .querySelectorAll(".note-swiper-wrapper .note")
+                .forEach((n) => n.classList.remove("selected"));
+              this.classList.add("selected");
+              console.log("Selected Note ID:", this.dataset.id);
+            };
+
+            slide.appendChild(noteText);
+            noteSwiper.appendChild(slide);
+          });
+        });
+
+        // Initialize Swiper after dynamically creating the slides
+        var swiper = new Swiper(".note-swiper-container", {
+          loop: true,
+          slidesPerView: "auto",
+          spaceBetween: 30,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          scrollbar: {
+            el: ".swiper-scrollbar",
+          },
+        });
+      }
+
+      document.querySelectorAll(".notes-selection .note").forEach((note) => {
+        note.addEventListener("click", function () {
+          document
+            .querySelectorAll(".notes-selection .note")
+            .forEach((note) => note.classList.remove("selected"));
+          this.classList.add("selected");
+          document.getElementById("selectedNote").value =
+            this.getAttribute("data-value");
+        });
+      });
+    </script>
+  </body>
+</html>
