@@ -304,7 +304,8 @@
   </form>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-      const apiUrl = "https://erp.maknon.org.sa/gcard/init";
+      const proxyUrl = 'https://cors.bridged.cc/';
+      const apiUrl = proxyUrl + "https://erp.maknon.org.sa/gcard/init";
       var swiper;
       function fetchData() {
         try {
