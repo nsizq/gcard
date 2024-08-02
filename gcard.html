@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جمعية مكنون | بطاقة مناسبة</title>
+    <link
+      rel="icon"
+      href="https://erp.maknon.org.sa/web/image?model=res.company&id=1&field=logo"
+      type="image/png"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <style>
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        background: url(https://erp.maknon.org.sa/mk_greeting_card/static/src/img/bgR.png) left top repeat-x #f9f9f9;
+        height: 100%;
+        margin: 0;
+        font-family: "Droid Arabic Kufi", serif;
+        padding: 20px;
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #e6e6e6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+      
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .spinner_6kVp {
+        transform-origin: center;
+        animation: spinner_irSm .75s infinite linear;
+      }
+      
+      @keyframes spinner_irSm {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      
+      .blur {
+        filter: blur(1px); /* Adjusted for slight blur effect */
+      }
+      .button-container {
+        overflow-x: auto;
+        white-space: nowrap;
+        display: flex;
+        cursor: pointer;
+        scrollbar-width: thin;
+        scrollbar-color: darkgrey lightgrey; 
+      }
+
+      .mk-box-shadow {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+      }
+
+      /* For Webkit browsers like Chrome and Safari */
+      .button-container::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .button-container::-webkit-scrollbar-track {
+        background: lightgrey;
+      }
+
+      .button-container::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 10px; /* roundness للسكرول */
+        border: 2px solid lightgrey; 
+      }
+
+      #buttonContainer .occasionButton {
+        margin: 8px;
+        text-align: center;
+      }
+      .btn-primary {
+        background-color: #277f66 !important;
+        border: 2px solid #277f66;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        margin: 10px;
+        white-space: nowrap; /* منع text wrap */
+        flex-shrink: 0; /* منع التقلص */
+      }
+
+      .btn-outline-primary {
+        color: #277f66;
+        border-color: #277f66;
+      }
+
+      .btn-outline-primary:hover {
+        color: #ffcf86 !important;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-outline-primary:focus {
+        color: #ffcf86 !important;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-outline-primary:active {
+        color: #ffcf86 !important;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-outline-primary.active {
+        color: #ffcf86 !important;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+      
+
+      .btn-primary:hover {
+        color: #ffcf86 !important;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-primary:focus {
+        color: #fff;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-primary:active {
+        color: #fff;
+        background-color: #277f66;
+        border-color: #277f66;
+      }
+      .btn-primary.active {
+        color: #fff;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+      .btn-primary:disabled {
+        color: #fff;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+      .occasionButton {
+        /* color: #fff; */
+        /* background-color: darkgreen;
+        border: 2px solid darkgreen; */
+        
+      }
+
+      .swiper-container {
+        overflow: hidden;
+        padding: 20px 0;
+        position: relative;
+      }
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .swiper-slide img {
+        display: block;
+        max-width: 100%;
+        max-height: 80vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .btn-primary:hover {
+        color: #ffcf86;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+      .btn-primary:active {
+        color: #ffcf86;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+      .swiper-pagination {
+        position: absolute;
+        bottom: 10px;
+        left: 50%; /* وضعها وسط افقيا */
+        transform: translateY(50%); /* وضعها وسط افقيا */
+        width: auto;
+        text-align: center;
+        z-index: 10; /* نقاط الترقيم فوق العناصر الاخرى */
+      }
+
+      .image-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 7.5px solid transparent;
+        pointer-events: none;
+        transition: border-color 0.000001s ease-in-out;
+      }
+      .image-border.active {
+        border-color: darkgreen;
+      }
+      .swiper-pagination-bullet-active {
+        background-color: darkgreen !important;
+      }
+      .occasions {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .btn-success {
+        background-color: #277f66 !important;
+        border-color: #277f66;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        white-space: nowrap; /* منع text wrap */
+        flex-shrink: 0; /* منع التقلص */
+        --bs-btn-border-width: 0;
+      }
+
+      .btn-success:hover {
+        color: #ffcf86;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+      .btn-success:active {
+        color: #ffcf86;
+        background-color: #277f66 !important;
+        border-color: #277f66 !important;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="icon">
+      <img
+        src="https://erp.maknon.org.sa/web/image?model=res.company&id=1&field=logo"
+        style="max-width: 30%; width: 200px"
+      />
+    </div>
+    <div class="container text-center">
+      <div class="loading-overlay hidden" id="loadingOverlay">
+        <svg width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <style>.spinner_6kVp{transform-origin:center;animation:spinner_irSm .75s infinite linear}@keyframes spinner_irSm{100%{transform:rotate(360deg)}}</style>
+          <path d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z" class="spinner_6kVp"/>
+        </svg>
+        <h1 id="title"></h1>
+      </div>
+      <div class="button-container row justify-content-center">
+        <div id="buttonContainer"></div>
+      </div>
+      
+      <div class="row align-items-center justify-content-center">
+        <div class="swiper-container col-md-6 col-9">
+          <div class="swiper-wrapper"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+      <form action="/" method="post">
+        <input type="text" name="image_id" id="hiddenImgID" hidden="hidden"/>
+      <div class="notes-container row justify-content-center py-2">
+        <div class="notes col-md-12 col-9" data-value="note1"></div>
+      </div>
+
+      <div class="row py-2 justify-content-center">
+        <div class="col-md-5 col-9 nameInputField">
+        </div>
+      </div>
+      <div class="row py-2 justify-content-center">
+        <div class="form-group col-md-5 col-9 submitButton"></div>
+      </div>
+    </div>
+  </form>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      const apiUrl = "https://erp.maknon.org.sa/gcard/init";
+      var swiper;
+      function fetchData() {
+        try {
+          // تفعيل سبينر حتى تتحمل المعلومات بشكل صحيح
+          document.getElementById("loadingOverlay").classList.remove("hidden");
+          document.body.classList.add("blur");
+
+          fetch(apiUrl)
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then(function (data) {
+              generateButtons(data.occasions);
+              generateImages(data.images);
+              generateSubmitButton();
+              generateNotes(data.occasions[0].note_ids);
+            })
+            .catch(function (error) {
+              document.getElementById("title").innerText = "Error loading data";
+            })
+            .finally(function () {
+              
+              // اخفاء السبينر بعد نجاح تحميل المعلومات
+              document.getElementById("loadingOverlay").classList.add("hidden");
+              document.body.classList.remove("blur");
+            });
+        } catch (error) {
+          document.getElementById("title").innerText = "Error loading data";
+
+          // اخفاء السبينر بعد نجاح تحميل المعلومات
+          document.getElementById("loadingOverlay").classList.add("hidden");
+          document.body.classList.remove("blur");
+        }
+      }
+      
+      window.onload = fetchData;
+      var lastImageId = null;
+      function generateImages(data) {
+        const swiperWrapper = document.querySelector(".swiper-wrapper");
+        swiperWrapper.innerHTML = "";
+        data.forEach((item) => {
+          const slide = document.createElement("div");
+          slide.className = "swiper-slide mk-box-shadow";
+          const img = document.createElement("img");
+          img.src = "data:image/jpeg;base64," + item.img;
+          img.alt = "Image";
+          img.dataset.id = item.id;
+          slide.appendChild(img);
+          swiperWrapper.appendChild(slide);
+        });
+        if (swiper) swiper.destroy(true, true); // ضمان نقاط الترقيم حتى بعد وجود ايرور
+        swiper = new Swiper(".swiper-container", {
+          loop: true,
+          slidesPerView: "auto",
+          spaceBetween: 30,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          scrollbar: {
+            el: ".swiper-scrollbar",
+          },
+        });
+
+        // حفظ معلومات الصورة الافتراضية عند تحميل الصفحة
+        const activeImg = swiper.slides[swiper.activeIndex].querySelector("img");
+        
+
+        swiper.on("slideChangeTransitionEnd", function () {
+          const activeImg = swiper.slides[swiper.activeIndex].querySelector("img");
+          const imgID = document.getElementById("hiddenImgID");
+
+          const currentImageId = activeImg.dataset.id;
+          if (activeImg) {
+          document.getElementById("hiddenImgID").value = activeImg.dataset.id;
+          }
+        });
+        
+      }
+      
+      function generateButtons(occasions) {
+        const buttonContainer = document.getElementById("buttonContainer");
+        buttonContainer.innerHTML = "";
+        occasions.forEach((occasion, index) => {
+          const button = document.createElement("button");
+          // تخصيص المناسبة الافتراضية لانها كلاس مختلف وتصميم مختلف
+          if (index === 0) {
+            button.className = "btn btn-primary occasionButton";
+              button.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 20">
+                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                  </svg> ${occasion.name}`;
+          } else {
+            button.className = "btn btn-outline-primary occasionButton";
+            button.textContent = occasion.name;
+          }
+          button.dataset.id = occasion.id;
+          button.addEventListener("click", function () {
+            // تغيير جميع الازرار الى btn-outline-primary
+            document.querySelectorAll('.occasionButton').forEach(btn => {
+              btn.classList.remove('btn-primary');
+              btn.classList.add('btn-outline-primary');
+              if (btn.querySelector('svg')) {
+                btn.innerHTML = btn.innerHTML.replace(/<svg[\s\S]*<\/svg>/, ''); // حذف SVG 
+              }
+            });
+
+            // اضافة btn-primary للزر المختار
+            this.classList.remove('btn-outline-primary');
+            this.classList.add('btn-primary');
+
+            // اعادة اضافة SVG للمناسبة الافتراضية
+            const firstButton = document.querySelector('.occasionButton');
+            firstButton.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 20">
+                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+              </svg> ${firstButton.textContent.trim()}`;
+
+              const url = `${apiUrl}?occasions=${this.dataset.id}`;
+              fetch(url, {
+                  method: "GET",
+                  headers: {},
+              })
+              .then((response) => {
+                  if (!response.ok) {
+                      throw new Error("Network response was not ok");
+                  }
+                  return response.json();
+              })
+              .then((data) => {
+                  generateImages(data.images);
+                  // توليد النوتس للمناسبة المختارة
+                  if (data.images && data.images.length > 0) {
+                      const selectedOccasion = occasions.find(o => o.id == occasion.id);
+                      generateNotes(selectedOccasion.note_ids);
+                  } else {
+                      // حذف النوتس في حال لا يوجد صور 
+                      clearNotes();
+                  }
+              })
+              .catch((error) => {
+                  console.error("Error sending data:", error);
+              });
+          });
+          buttonContainer.appendChild(button);
+        });
+      }
+
+
+      function generateNotes(note_ids) {
+        const noteSwiper = document.querySelector(".notes");
+        noteSwiper.innerHTML = ""; // حذف النوتس الحالية اذا تواجدت
+
+        note_ids.forEach((note) => {
+          // انشاء ريديو للنوتس
+          const radioInput = document.createElement("input");
+          radioInput.type = "radio";
+          radioInput.className = "btn-check";
+          radioInput.id = "note-" + note.id; // ID فريد
+          radioInput.name = "note_id"; // نفس الاسم يضعهم في قروب 
+          radioInput.value = note.id;
+          radioInput.autocomplete = "off";
+
+          // انشاء الlabel للريديو 
+          const label = document.createElement("label");
+          label.className = "btn btn-outline-success mx-3 my-3";
+          label.htmlFor = radioInput.id; // التاكد من الضغط عليها يشغل الانبوت
+          label.textContent = note.name;
+          label.dataset.id = note.id;
+
+          // في حال كان هناك حاجة ل ايفنت
+          label.addEventListener("click", () => {
+            document
+              .querySelectorAll(".notes .btn")
+              .forEach((btn) => btn.classList.remove("selected"));
+            label.classList.add("selected");
+          });
+
+          label.onclick = function () {
+            document.querySelectorAll(".notes-container .notes");
+          };
+
+          // تطبيق الكود في الكونتينر المظلوب
+          noteSwiper.appendChild(radioInput);
+          noteSwiper.appendChild(label);
+        });
+      } 
+
+      function clearNotes() {
+        const noteSwiper = document.querySelector(".notes");
+        noteSwiper.innerHTML = ""; // حذف النوتس الحالية
+      }
+      
+      function generateSubmitButton() {
+        const nameInput = document.querySelector(".nameInputField");
+        nameInput.innerHTML = "";
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.id = "inputName";
+        inputField.name = "name";
+        inputField.className = "form-control text-center";
+        inputField.ariaDescription = "nameHelpInline";
+        inputField.required = true;
+
+        const subBtn = document.querySelector(".submitButton");
+        subBtn.innerHTML = "";
+        const subBtnCreate = document.createElement("button"); 
+        subBtnCreate.className = "form-control btn btn-success btn-lg col";
+        subBtnCreate.type = "submit";
+        subBtnCreate.value = "Submit";
+        subBtnCreate.textContent = "أنشئ بطاقتك";
+
+        nameInput.appendChild(inputField);
+        subBtn.append(subBtnCreate);
+      }
+      document.querySelectorAll(".notes-selection .notes").forEach((note) => {
+        note.addEventListener("click", function () {
+          document
+            .querySelectorAll(".notes-selection .note")
+            .forEach((note) => note.classList.remove("selected"));
+          this.classList.add("selected");
+          document.getElementById("selectedNote").value =
+            this.getAttribute("data-value");
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".occasionButton");
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // حذف كلاس اكتيف من جميع الازرار
+            buttons.forEach((btn) => btn.classList.remove("active"));
+
+            // اضافة كلاس اكتيف للزر المختار
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
