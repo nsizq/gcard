@@ -351,8 +351,9 @@
         swiperWrapper.innerHTML = "";
         data.forEach((item) => {
           const slide = document.createElement("div");
-          slide.className = "swiper-slide mk-box-shadow";
+          slide.className = "swiper-slide";
           const img = document.createElement("img");
+          img.class = "mk-box-shadow";
           img.src = "data:image/jpeg;base64," + item.img;
           img.alt = "Image";
           img.dataset.id = item.id;
