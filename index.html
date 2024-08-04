@@ -76,9 +76,9 @@
         scrollbar-color: darkgrey lightgrey; 
       }
 
-      .mk-box-shadow {
+/*       .mk-box-shadow {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
-      }
+      } */
 
       /* For Webkit browsers like Chrome and Safari */
       .button-container::-webkit-scrollbar {
@@ -353,7 +353,7 @@
           const slide = document.createElement("div");
           slide.className = "swiper-slide";
           const img = document.createElement("img");
-          img.className = "mk-box-shadow";
+          // img.className = "mk-box-shadow";
           img.src = "data:image/jpeg;base64," + item.img;
           img.alt = "Image";
           img.dataset.id = item.id;
